@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Random token generator</title>
+    <style>
+      html { 
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      body { 
+        background-color: white;
+        max-width: 800px; 
+        margin: 0px auto;
+        min-height: 100vh;
+      }
+      h1 {
+        margin-top: 0px;
+        padding-top: 20px;
+      }
+      div#result {
+        margin: 5px;
+        border: 1px solid black;
+        min-height: 10vh;
+        padding: 4px;
+      }
+      div#result input {
+        width: 94%;
+        margin-top: 3px;
+        margin-bottom: 3px;
+        margin-left: 3%;
+        margin-right: 3%;
+      }
+    </style>
+    <script type="text/javascript">
+    window.addEventListener("load", () => {
+      document.getElementById("input").addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const pattern = "abcdefghijklmnopqrstuvwxyz0123456789\\^[]-@;/:.,";
+        const input = Number(document.getElementById("length").value);
+        var result = "";
+        for(var i = 0; i <= input; i++){
+          var random = Math.floor(Math.random() * pattern.length);
+          if(random >= pattern.length) random = pattern.length - 1;
+          result += pattern[random];
+        }
+        result = btoa(result);
+        result = result.substr(0, input);
+        if(result) {
+          const elem = document.createElement("input");
+          elem.type = "text";
+          elem.readOnly = true;
+          elem.value = result;
+          elem.addEventListener("click", function(){this.focus(); this.select();});
+          const br = document.createElement("br");
+          const ph = document.getElementById("ph");
+          if(ph) ph.remove();
+          const resultElem = document.getElementById("result")
+          resultElem.appendChild(elem);
+          resultElem.appendChild(br);
+        }
+        return false;
+      });
+      document.getElementById("clear").addEventListener("click", () => location.reload(false));
+    });
+    </script>
+  </head>
+  <body>
+    <h1>Random token generator</h1>
+    <p>You can check and use the complete source code in <a href="https://github.com/mtripg6666tdr/random-token-generator/">GitHub</a></p>
+    <form id="input">
+      <input type="number" id="length" value="10">
+      <button type="submit">GENARATE</button>
+      <button type="button" id="clear">CLEAR</button>
+    </form>
+    <div id="result">
+      <p id="ph">Click 'GENERATE' button to create random token.</p>
+    </div>
+  </body>
+</html>
