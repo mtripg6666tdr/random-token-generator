@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -36,10 +36,14 @@
     </style>
     <script type="text/javascript">
     window.addEventListener("load", () => {
+      const history = localStorage.getItem("recentLengthSetting");
+      if(history) document.getElementById("length").value = history;
       document.getElementById("input").addEventListener("submit", (ev) => {
         ev.preventDefault();
         const pattern = "abcdefghijklmnopqrstuvwxyz0123456789\\^[]-@;/:.,";
-        const input = Number(document.getElementById("length").value);
+        const rawStr = document.getElementById("length").value;
+        const input = Number(rawStr);
+        localStorage.setItem("recentLengthSetting",rawStr);
         var result = "";
         for(var i = 0; i <= input; i++){
           var random = Math.floor(Math.random() * pattern.length);
@@ -69,9 +73,10 @@
   </head>
   <body>
     <h1>Random token generator</h1>
+    <p>Genarate random token by one click. Token will be genarated in your browser and generated token will not be sent to any server.</p>
     <p>You can check and use the complete source code in <a href="https://github.com/mtripg6666tdr/random-token-generator/">GitHub</a></p>
     <form id="input">
-      <input type="number" id="length" value="10">
+      <input type="number" id="length" value="10" placeholder="Token length">
       <button type="submit">GENARATE</button>
       <button type="button" id="clear">CLEAR</button>
     </form>
